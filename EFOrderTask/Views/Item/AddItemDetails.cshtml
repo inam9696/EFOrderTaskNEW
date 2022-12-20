@@ -1,0 +1,51 @@
+﻿@model EFOrderTask.Models.ViewModels.AddItemDetailsViewModel
+
+@{
+    ViewData["Title"] = "AddItemDetails";
+}
+
+
+<h1>Create</h1>
+
+<h4>Item Details </h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="AddItemDetails">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+       
+              <div class="form-group">
+                  <label>Item Name</label>
+                <select asp-for="@Model.ItemId" asp-items="@Model.CSelectListItem(@Model.Items)" class="form-control"></select>
+                <span asp-validation-for="@Model.ItemId" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label>Unit Name</label>
+                <select asp-for="@Model.UnitId" asp-items="@Model.CSelectListUnits(@Model.Units)" class="form-control"></select>
+                <span asp-validation-for="@Model.UnitId" class="text-danger"></span>
+            </div>
+
+             <div class="form-group">
+                <label asp-for="@Model.UnitPrice" class="control-label"></label>
+                <input asp-for="@Model.UnitPrice" class="form-control" />
+                <span asp-validation-for="@Model.UnitPrice" class="text-danger"></span>
+            </div>
+      
+         
+            <div class="form-group">
+                <input type="submit" value="Submit" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@*@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}*@

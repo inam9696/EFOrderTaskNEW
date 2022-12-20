@@ -1,0 +1,109 @@
+﻿
+@model EFOrderTask.Models.ViewModels.PlaceOrderViewModel
+
+@{
+    ViewData["Title"] = "PlaceOrder";
+}
+
+<h1>Place Order</h1>
+
+<h4>Item</h4>
+<hr />
+<div class="row">
+
+
+   @* asp-action="placeOrder"*@
+        <div class="col-md-4">
+           <form method="post" >
+
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div>@Model.Total_Price.ToString()</div>
+              
+            <div class="form-group"><h2><label class="control-label"></label>Customer Name: @Model.Customer_Name</h2></div>
+                <div class="form-group">
+                   
+                    Item Name:
+                <select asp-for="@Model.Item_Id" asp-items="@Model.CSelectListItem(@Model.Items)" onchange="getUnits(event)" class="form-control"></select>
+   @*                 <select asp-for="@Model.ItemId" asp-items="@Model.CSelectListItem(@Model.Items)" onchange="getUnits(this, @Model.CustomerName.ToString(), @Model.CustomerGuidKey.ToString())" class="form-control"></select>*@
+               @* <select asp-for="@Model.ItemId" asp-items="@Model.CSelectListItem(@Model.Items)" onchange={(e) => this.getUnits(this, @Model.CustomerName.ToString(), @Model.CustomerGuidKey.ToString())} class="form-control"></select>*@
+                    <span asp-validation-for="@Model.Item_Id" class="text-danger"></span>
+
+                </div>
+
+                <div id="PV"></div>
+            
+            <input hidden asp-for="@Model.Customer_Name" class="form-control" />
+            <input hidden asp-for="@Model.Total_Price" class="form-control" />
+            <input hidden asp-for="@Model.Order_Id" class="form-control" />
+            <input hidden asp-for="@Model.CustomerGuidKey" class="form-control" />
+                <div class="form-group">
+                <input type="submit" value="Submit" asp-action="placeOrder" class="btn btn-primary" />
+                </div>
+            <div class="form-group">
+                <input type="submit"  value="Add New Item"  asp-controller="Order" asp-action="AddItem" class="btn btn-primary" />
+            </div>
+            </form>
+        </div>
+
+    
+
+
+
+
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
+
+<script>
+    function getUnits(e) {
+        console.log("val",e.target.value)
+        const val = e.target.value
+        var obj={
+            id:e.target.value,
+            CName: '@(@Model.Customer_Name)',
+            CGuid: "@(Model.CustomerGuidKey)",
+            oid: "@(Model.Order_Id)"
+        }
+        $.ajax({
+
+            url: '/Order/getUnits/',
+          
+            type: 'GET',
+            contentType: 'json',
+            success: function (result) {
+            console.log('Data received: ');
+            console.log(result);
+
+                let content = document.getElementById('PV');
+                    content.innerHTML = `${result}`;
+                    
+
+                }
+               ,
+                error:function(err){
+                    console.log("arr",err)
+                } ,
+                data:obj
+        })
+
+    }
+
+    function jsonToQueryString(json) {
+        return '?' +
+            Object.keys(json).map(function (key) {
+                return encodeURIComponent(key) + '=' +
+                    encodeURIComponent(json[key]);
+            }).join('&');
+    }
+</script>
+
+
+
+@*<select asp-for="@Model.ItemId" asp-items="@Model.CSelectListItem(@Model.Items)" onchange="getUnits(this)" class="form-control"></select>*@

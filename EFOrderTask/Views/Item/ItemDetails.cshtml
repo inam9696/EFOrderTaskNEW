@@ -1,0 +1,47 @@
+﻿@model EFOrderTask.Models.ViewModels.ItemViewModel
+
+@{
+    ViewData["Title"] = "ItemDetails";
+}
+
+<h1>ItemDetails</h1>
+
+<div>
+    <h4>Item</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            Item Name
+            @*@Html.DisplayNameFor(model => model.ItemName)*@
+        </dt>
+        <dd class = "col-sm-10">
+            @*@Html.DisplayFor(model => model.ItemName)*@
+        </dd>
+        @*<dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Price)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Price)
+        </dd>*@
+        @foreach(var item in Model.Units)
+        {
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.UnitType)
+            </dt>
+            <dd class="col-sm-10">
+                @*@Html.DisplayFor(model => model.UnitType)*@
+            </dd>
+
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Price)
+            </dt>
+            <dd class="col-sm-10">
+                @*@Html.DisplayFor(model => model.UnitPrice)*@
+            </dd>
+        }
+    </dl>
+</div>
+<div>
+    @*<a asp-action="Edit" asp-route-id="@Model?.ItemId">Edit</a> |*@
+    <a asp-action="Index">Back to List</a>
+</div>

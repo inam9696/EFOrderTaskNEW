@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33122.133
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EFOrderTask", "EFOrderTask\EFOrderTask.csproj", "{797895B0-8511-4971-A517-D75EC7B0D027}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{797895B0-8511-4971-A517-D75EC7B0D027}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{797895B0-8511-4971-A517-D75EC7B0D027}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{797895B0-8511-4971-A517-D75EC7B0D027}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{797895B0-8511-4971-A517-D75EC7B0D027}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {63015AD4-2667-48A0-A5C7-CF4C0FBF7D36}
+	EndGlobalSection
+EndGlobal

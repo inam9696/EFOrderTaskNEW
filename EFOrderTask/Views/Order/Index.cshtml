@@ -1,0 +1,74 @@
+﻿@model IEnumerable<EFOrderTask.Models.ViewModels.ItemViewModel>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<form asp-action="Index" method="get">
+    <div class="form-actions no-color">
+        <p>
+            Find by name: <input type="text" name="SearchString" value="@ViewData["CurrentFilter"]" />
+            <input type="submit" value="Search" class="btn btn-default" /> |
+            <a asp-action="Index">Back to Full List</a>
+        </p>
+    </div>
+</form>
+
+<p>
+    <a  asp-controller="Order" asp-action="CreateOrder">Create Order</a>
+</p>
+
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["NameSortParm"]">Item Name</a>
+            </th>
+            <th>
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["PriceSortParm"]"> Unit Price</a>
+            </th>
+            <th>
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["UnitTypeSortParm"]">Unit Type</a>
+            </th>
+            <th>
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["QuantitySortParm"]">Total Quantity</a>
+            </th>
+          
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ItemName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UnitType)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Quantity)
+                </td>
+                <td>
+            <a asp-action="Edit" asp-route-id="@item.ItemId">Edit</a> |
+            <a asp-action="Details" asp-route-id="@item.ItemId">Details</a> |
+            <a asp-action="Delete" asp-route-id="@item.ItemId">Delete</a>
+            </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+
+
+
+

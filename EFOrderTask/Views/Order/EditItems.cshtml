@@ -1,0 +1,65 @@
+﻿@model EFOrderTask.Models.OrderItem
+
+@{
+    ViewData["Title"] = "EditItems";
+}
+
+<h1>EditItems</h1>
+
+<h4>OrderedItem</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="EditItems">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Order_Id" />
+          
+            <div class="form-group">
+                
+                <input hidden asp-for="OrderId_FK" class="form-control" />
+                <span asp-validation-for="OrderId_FK" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+               
+                <input hidden asp-for="ItemId_Fk" class="form-control" />
+                <span asp-validation-for="ItemId_Fk" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+               
+                <input hidden asp-for="UnitId_Fk" class="form-control" />
+                <span asp-validation-for="UnitId_Fk" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Customer_Name" class="control-label"></label>
+                <input asp-for="Customer_Name" class="form-control" />
+                <span asp-validation-for="Customer_Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CustomerGuidKey" class="control-label"></label>
+                <input asp-for="CustomerGuidKey" class="form-control" />
+                <span asp-validation-for="CustomerGuidKey" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Quantity" class="control-label"></label>
+                <input asp-for="Quantity" class="form-control" />
+                <span asp-validation-for="Quantity" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Sub_Total" class="control-label"></label>
+                <input asp-for="Sub_Total" class="form-control" />
+                <span asp-validation-for="Sub_Total" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
