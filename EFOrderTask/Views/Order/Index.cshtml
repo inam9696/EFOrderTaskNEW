@@ -1,4 +1,4 @@
-﻿@model IEnumerable<EFOrderTask.Models.ViewModels.ItemViewModel>
+﻿@model IEnumerable<EFOrderTask.Models.ViewModels.OrderViewModel>
 
 @{
     ViewData["Title"] = "Index";
@@ -46,13 +46,13 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.ItemName)
+                    @Html.DisplayFor(modelItem => item.Item_Name)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Price)
+                    @Html.DisplayFor(modelItem => item.TotalPrice)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.UnitType)
+                    @Html.DisplayFor(modelItem => item.Unit_Name)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Quantity)

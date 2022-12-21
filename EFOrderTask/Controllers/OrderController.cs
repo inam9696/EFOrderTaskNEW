@@ -18,9 +18,45 @@ namespace EFOrderTask.Controllers
         {
             _db=db;
         }
-        public IActionResult Index1()
+        public IActionResult Index1(string sortOrder, string searchString)
         {
             var list = _db.Orders.ToList();
+
+            ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewData["PriceSortParm"] = String.IsNullOrEmpty(sortOrder) ? "price_desc" : "price_Asc";
+            //ViewData["PriceSortParm"] = String.IsNullOrEmpty(sortOrder) ? "price_Asc" : "";
+            //ViewData["UnitTypeSortParm"] = String.IsNullOrEmpty(sortOrder) ? "UnitType_desc" : "UnitType_Asc";
+            ViewData["QuantitySortParm"] = String.IsNullOrEmpty(sortOrder) ? "Quantity_desc" : "";
+            ViewData["CurrentFilter"] = searchString;
+            
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                //list = list.Where(i => i.Customer_Name.Contains(searchString)).ToList();
+                list = list.Where(i => i.Customer_Name.Contains(searchString)).ToList();
+            }
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    list = list.OrderByDescending(i => i.Customer_Name).ToList();
+                    break;
+                //case "price_desc":
+                //    list = list.OrderByDescending(i => i.Total_Price).ToList();
+                //    break;
+                //case "price_Asc":
+                //    list = list.OrderBy(i => i.Total_Price).ToList();
+                //    break;
+                //case "UnitType_desc":
+                //    list = list.OrderByDescending(i => i.Unit_Name).ToList();
+                //    break;
+                //case "UnitType_Asc":
+                //    list = list.OrderBy(i => i.Unit_Name).ToList();
+                //    break;
+
+                default:
+                    list = list.OrderBy(i => i.Customer_Name).ToList();
+                    break;
+            }
             return View(list);
         }
 
@@ -77,71 +113,73 @@ namespace EFOrderTask.Controllers
             return RedirectToAction("Index");
         }
 
-        public async Task<IActionResult> Index(string sortOrder, string searchString)
-        {
-            ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
-            ViewData["PriceSortParm"] = String.IsNullOrEmpty(sortOrder) ? "price_desc" : "price_Asc";
-            //ViewData["PriceSortParm"] = String.IsNullOrEmpty(sortOrder) ? "price_Asc" : "";
-            ViewData["UnitTypeSortParm"] = String.IsNullOrEmpty(sortOrder) ? "UnitType_desc" : "UnitType_Asc";
-            ViewData["QuantitySortParm"] = String.IsNullOrEmpty(sortOrder) ? "Quantity_desc" : "";
-            ViewData["CurrentFilter"] = searchString;
+        //public async Task<IActionResult> Index(string sortOrder, string searchString)
+        //{
+        //    ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+        //    ViewData["PriceSortParm"] = String.IsNullOrEmpty(sortOrder) ? "price_desc" : "price_Asc";
+        //    //ViewData["PriceSortParm"] = String.IsNullOrEmpty(sortOrder) ? "price_Asc" : "";
+        //    ViewData["UnitTypeSortParm"] = String.IsNullOrEmpty(sortOrder) ? "UnitType_desc" : "UnitType_Asc";
+        //    ViewData["QuantitySortParm"] = String.IsNullOrEmpty(sortOrder) ? "Quantity_desc" : "";
+        //    ViewData["CurrentFilter"] = searchString;
 
 
-            var items = await _db.Items.Include(x => x.ItemUnits)
-                            .ThenInclude(u => u.Unit)
-                            .Where(x => x.ItemUnits.Count > 0).ToListAsync();
+        //    var items = await _db.Orders.Include(x => x.OrderedItems)
+        //                    .ThenInclude(u => u.Unit).Include(x => x.OrderedItems
+        //                    .Select(x => x.Item).ToList();
+        //                    //.Where(x => x..Count > 0).to();
 
-            List<ItemViewModel> sd = new List<ItemViewModel>();
-            foreach (var x in items)
-            {
-                foreach (var i in x.ItemUnits.ToList())
-                {
-                    var li = new ItemViewModel
-                    {
-                        ItemId = i.Item.Item_Id,
-                        ItemName = i.Item.Item_Name,
-                        UnitId = i.UnitId_FK,
-                        //Quantity =items.ItemUnits.Select(x=>x.Quatity).ToList(),
-                        //Quantity =items.Select(x=>x.ItemUnits).Where(x=)
-                        UnitType = i.Unit.Unit_Name,
-                        Price = i.Price
+        //    List<OrderViewModel> sd = new List<OrderViewModel>();
+        //    foreach (var x in items)
+        //    {
+        //        foreach (var i in x.OrderedItems.ToList())
+        //        {
+        //            var li = new OrderViewModel
+        //            {
+        //                ItemId = i.Item.Item_Id,
+        //                Item_Name = i.Item.Item_Name,
+        //                UnitId = i.Unit.Unit_Id,
+        //                //Quantity =items.ItemUnits.Select(x=>x.Quatity).ToList(),
+        //                //Quantity =items.Select(x=>x.ItemUnits).Where(x=)
+        //                Unit_Name = i.Unit.Unit_Name,
+        //                TotalPrice = i.Sub_Total
 
-                    };
-                    sd.Add(li);
-                }
+        //            };
+        //            sd.Add(li);
+        //        }
 
-            }
-            if (!String.IsNullOrEmpty(searchString))
-            {
-                sd = sd.Where(i => i.ItemName.Contains(searchString) ||
-                                   i.UnitType.Contains(searchString)).ToList();
-            }
-            switch (sortOrder)
-            {
-                case "name_desc":
-                    sd = sd.OrderByDescending(i => i.ItemName).ToList();
-                    break;
-                case "price_desc":
-                    sd = sd.OrderByDescending(i => i.Price).ToList();
-                    break;
-                case "price_Asc":
-                    sd = sd.OrderBy(i => i.Price).ToList();
-                    break;
-                case "UnitType_desc":
-                    sd = sd.OrderByDescending(i => i.UnitType).ToList();
-                    break;
-                case "UnitType_Asc":
-                    sd = sd.OrderBy(i => i.UnitType).ToList();
-                    break;
+        //    }
+        //    if (!String.IsNullOrEmpty(searchString))
+        //    {
+        //        sd = sd.Where(i => i.Item_Name.Contains(searchString) ||
+        //                           i.Unit_Name.Contains(searchString)).ToList();
+        //    }
+        //    switch (sortOrder)
+        //    {
+        //        case "name_desc":
+        //            sd = sd.OrderByDescending(i => i.Item_Name).ToList();
+        //            break;
+        //        case "price_desc":
+        //            sd = sd.OrderByDescending(i => i.TotalPrice).ToList();
+        //            break;
+        //        case "price_Asc":
+        //            sd = sd.OrderBy(i => i.TotalPrice).ToList();
+        //            break;
+        //        case "UnitType_desc":
+        //            sd = sd.OrderByDescending(i => i.Unit_Name).ToList();
+        //            break;
+        //        case "UnitType_Asc":
+        //            sd = sd.OrderBy(i => i.Unit_Name).ToList();
+        //            break;
 
-                default:
-                    sd = sd.OrderBy(i => i.ItemName).ToList();
-                    break;
-            }
+        //        default:
+        //            sd = sd.OrderBy(i => i.Item_Name).ToList();
+        //            break;
+        //    }
 
 
-            return View(sd);
-        }
+        //    return View(sd);
+        //}
+
 
         [HttpGet]
         public async Task<IActionResult> PlaceOrder(string? customerName, string? customerGuid, int oId, Decimal TotalPrice = 0)
@@ -220,7 +258,7 @@ namespace EFOrderTask.Controllers
 
 
             }
-            return RedirectToAction("Index");
+            return RedirectToAction("Index1");
         }
         //
         //

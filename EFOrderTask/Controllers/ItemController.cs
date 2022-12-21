@@ -187,7 +187,43 @@ namespace EFOrderTask.Controllers
             _db.SaveChanges();
             return RedirectToAction("Index");
         }
-          //git
+
+        [HttpGet]
+        public IActionResult EditItem(int ItemId)
+        {
+            var edit = _db.Items.Include(x => x.ItemUnits).Where(x => x.Item_Id == ItemId).ToList();
+            List<ItemViewModel> sd = new List<ItemViewModel>();
+            foreach (var x in edit)
+            {
+                foreach (var i in x.ItemUnits.ToList())
+                {
+                    var li = new ItemViewModel
+                    {
+                        ItemId = i.Item.Item_Id,
+                        ItemName = i.Item.Item_Name,
+                        UnitId = i.UnitId_FK,
+                        // UnitType = i.Unit.Unit_Name ,
+                        UnitType = i.Unit.Unit_Name,
+                        Price = i.Price
+
+                    };
+                    sd.Add(li);
+                }
+                //var edit = _db.UnitItems.Find(id);
+                //var edit = _db.UnitItems.Where(x => x.Unit_Id == id).FirstOrDefault();
+                
+            }
+            return View(sd);
+        }
+
+        [HttpPost]
+        public IActionResult EditItem(ItemUnit itemUnit)
+        {
+           _db.UnitItems.Update(itemUnit);
+            _db.SaveChanges(true);
+            return RedirectToAction("Index");
+        }
+        //git
     }
 }
 
